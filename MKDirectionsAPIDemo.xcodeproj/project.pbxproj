@@ -16,6 +16,7 @@
 		EEE406A528A50DA90085EB75 /* MapViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE406A428A50DA90085EB75 /* MapViewViewController.swift */; };
 		EEE406A728A50DEE0085EB75 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE406A628A50DEE0085EB75 /* DataModel.swift */; };
 		EEE406AA28A510160085EB75 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEE406A928A510160085EB75 /* MapKit.framework */; };
+		EEE406AE28A534610085EB75 /* StepTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE406AD28A534610085EB75 /* StepTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		EEE406A628A50DEE0085EB75 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		EEE406A928A510160085EB75 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		EEE406AB28A526AC0085EB75 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		EEE406AD28A534610085EB75 /* StepTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,12 +70,13 @@
 				EEE4068E28A50C3E0085EB75 /* AppDelegate.swift */,
 				EEE4069028A50C3E0085EB75 /* SceneDelegate.swift */,
 				EEE4069428A50C3E0085EB75 /* Main.storyboard */,
-				EEE4069728A50C3E0085EB75 /* Assets.xcassets */,
 				EEE4069928A50C3E0085EB75 /* LaunchScreen.storyboard */,
+				EEE4069728A50C3E0085EB75 /* Assets.xcassets */,
 				EEE4069C28A50C3E0085EB75 /* Info.plist */,
 				EEE406A628A50DEE0085EB75 /* DataModel.swift */,
 				EEE406A228A50D950085EB75 /* DataTableViewController.swift */,
 				EEE406A428A50DA90085EB75 /* MapViewViewController.swift */,
+				EEE406AD28A534610085EB75 /* StepTableViewController.swift */,
 			);
 			path = MKDirectionsAPIDemo;
 			sourceTree = "<group>";
@@ -159,6 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEE406A328A50D950085EB75 /* DataTableViewController.swift in Sources */,
+				EEE406AE28A534610085EB75 /* StepTableViewController.swift in Sources */,
 				EEE4068F28A50C3E0085EB75 /* AppDelegate.swift in Sources */,
 				EEE4069128A50C3E0085EB75 /* SceneDelegate.swift in Sources */,
 				EEE406A528A50DA90085EB75 /* MapViewViewController.swift in Sources */,
