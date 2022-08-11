@@ -9,10 +9,34 @@ import UIKit
 import MapKit
 
 class MapViewViewController: UIViewController {
+    
+    let locationManager = CLLocationManager()
+    var currentPlacemark: CLPlacemark?
+    
+    var currentTransportType = MKDirectionsTransportType.automobile
+    var currentRoute: MKRoute?
+    
+    var restaurant: Restaurant!
 
     @IBOutlet var mapView: MKMapView!
+    @IBOutlet var segmentControl: UISegmentedControl!
+    
+    // MARK: - 顯示路徑
     
     @IBAction func showDirection(sender: UIButton) {
+        
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+            currentTransportType = .automobile
+            
+        case 1:
+            currentTransportType = .walking
+            
+        default:
+            break
+        }
+        
+        segmentControl.isHidden = false
         
         guard let currentPlacemark = currentPlacemark else {
             return
@@ -25,10 +49,10 @@ class MapViewViewController: UIViewController {
         // 終點位置
         let destinationPlacemark = MKPlacemark(placemark: currentPlacemark)
         directRequest.destination = MKMapItem(placemark: destinationPlacemark)
-        directRequest.transportType = MKDirectionsTransportType.automobile
+        directRequest.transportType = currentTransportType
         
         let directions = MKDirections(request: directRequest)
-        directions.calculate { routeResponse, routeError -> Void in
+        directions.calculate(completionHandler: { routeResponse, routeError -> Void in
             
             guard let routeResponse = routeResponse else {
                 if let routeError = routeError {
@@ -39,20 +63,22 @@ class MapViewViewController: UIViewController {
             }
             
             let route = routeResponse.routes[0]
+            self.currentRoute = route
+            self.mapView.removeOverlays(self.mapView.overlays)
             self.mapView.addOverlay(route.polyline, level: MKOverlayLevel.aboveRoads)
             
             let rect =  route.polyline.boundingMapRect
             self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
-        }
+        })
     }
     
-    let locationManager = CLLocationManager()
-    var currentPlacemark: CLPlacemark?
-    var restaurant: Restaurant!
-    
+    // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        segmentControl.isHidden = true
+        segmentControl.addTarget(self, action: #selector(showDirection), for: .valueChanged)
         
         locationManager.requestWhenInUseAuthorization()
         let status = CLLocationManager.authorizationStatus()
@@ -96,12 +122,17 @@ class MapViewViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.red
-        renderer.lineWidth = 3.0
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        return renderer
+        if segue.identifier == "showSteps" {
+            let destinationVC = segue.destination.children[0] as! StepTableViewController
+            
+            if let steps = currentRoute?.steps {
+                destinationVC.routeSteps = steps
+            }
+        }
     }
 }
 
@@ -146,7 +177,22 @@ extension MapViewViewController: MKMapViewDelegate {
         let leftIconView = UIImageView(frame: CGRect.init(x: 0, y: 0, width: 53, height: 53))
         leftIconView.image = UIImage(named: restaurant.image)
         annotationView?.leftCalloutAccessoryView = leftIconView
+        
+        annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
             
         return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.systemOrange
+        renderer.lineWidth = 3.0
+        
+        return renderer
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        performSegue(withIdentifier: "showSteps", sender: view)
     }
 }
