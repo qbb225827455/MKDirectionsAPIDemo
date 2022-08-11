@@ -14,6 +14,36 @@ class MapViewViewController: UIViewController {
     
     @IBAction func showDirection(sender: UIButton) {
         
+        guard let currentPlacemark = currentPlacemark else {
+            return
+        }
+        
+        let directRequest = MKDirections.Request()
+        
+        // 起點位置
+        directRequest.source = MKMapItem.forCurrentLocation()
+        // 終點位置
+        let destinationPlacemark = MKPlacemark(placemark: currentPlacemark)
+        directRequest.destination = MKMapItem(placemark: destinationPlacemark)
+        directRequest.transportType = MKDirectionsTransportType.automobile
+        
+        let directions = MKDirections(request: directRequest)
+        directions.calculate { routeResponse, routeError -> Void in
+            
+            guard let routeResponse = routeResponse else {
+                if let routeError = routeError {
+                    print("Error: \(routeError)")
+                }
+                
+                return
+            }
+            
+            let route = routeResponse.routes[0]
+            self.mapView.addOverlay(route.polyline, level: MKOverlayLevel.aboveRoads)
+            
+            let rect =  route.polyline.boundingMapRect
+            self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
+        }
     }
     
     let locationManager = CLLocationManager()
@@ -39,6 +69,7 @@ class MapViewViewController: UIViewController {
             if let placemarks = placemarks {
                 
                 let placemark = placemarks[0]
+                self.currentPlacemark = placemark
                 
                 let annotation = MKPointAnnotation()
                 annotation.title = self.restaurant.name
@@ -56,6 +87,14 @@ class MapViewViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.red
+        renderer.lineWidth = 3.0
+        
+        return renderer
     }
 }
 
