@@ -54,6 +54,13 @@ class MapViewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        locationManager.requestWhenInUseAuthorization()
+        let status = CLLocationManager.authorizationStatus()
+        
+        if status == CLAuthorizationStatus.authorizedWhenInUse {
+            mapView.showsUserLocation = true
+        }
+        
         mapView.delegate = self
         mapView.showsCompass = true
         mapView.showsScale = true
