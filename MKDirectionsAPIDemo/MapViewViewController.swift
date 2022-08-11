@@ -72,6 +72,45 @@ class MapViewViewController: UIViewController {
         })
     }
     
+    // MARK: - 顯示附近類似的位置
+    
+    @IBAction func showNearby(sender: UIButton) {
+        
+        let searchRequest = MKLocalSearch.Request()
+        searchRequest.naturalLanguageQuery = restaurant.type
+        searchRequest.region = mapView.region
+        
+        let localSearch = MKLocalSearch(request: searchRequest)
+        localSearch.start(completionHandler: { response, error -> Void in
+            
+            guard let response = response else {
+                if let error = error {
+                    print(error)
+                }
+                
+                return
+            }
+            
+            let mapItems = response.mapItems
+            var nearbyAnnotations = [MKAnnotation]()
+            
+            for item in mapItems {
+                
+                let annotation = MKPointAnnotation()
+                annotation.title = item.name
+                annotation.subtitle = item.phoneNumber
+                
+                if let location = item.placemark.location {
+                    annotation.coordinate = location.coordinate
+                }
+                
+                nearbyAnnotations.append(annotation)
+            }
+            
+            self.mapView.showAnnotations(nearbyAnnotations, animated: true)
+        })
+    }
+    
     // MARK: - Life cycle
 
     override func viewDidLoad() {
@@ -186,7 +225,7 @@ extension MapViewViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = UIColor.systemOrange
-        renderer.lineWidth = 3.0
+        renderer.lineWidth = 5.0
         
         return renderer
     }
