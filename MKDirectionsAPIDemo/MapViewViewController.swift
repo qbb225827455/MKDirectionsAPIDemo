@@ -16,7 +16,10 @@ class MapViewViewController: UIViewController {
         
     }
     
+    let locationManager = CLLocationManager()
+    var currentPlacemark: CLPlacemark?
     var restaurant: Restaurant!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,13 +62,13 @@ class MapViewViewController: UIViewController {
 extension MapViewViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
         let identifier = "MyPin"
         
         if annotation.isKind(of: MKUserLocation.self) {
             return nil
         }
         
-        // Reuse the annotation if possible
         var annotationView: MKAnnotationView?
         
         if #available(iOS 11.0, *) {
