@@ -97,7 +97,7 @@
                                     <constraint firstAttribute="width" constant="34" id="k24-fZ-YrX"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" image="safari" catalog="system"/>
+                                <state key="normal" image="paperplane.circle" catalog="system"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="17"/>
@@ -132,7 +132,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="safari" catalog="system" width="128" height="121"/>
+        <image name="paperplane.circle" catalog="system" width="128" height="121"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
