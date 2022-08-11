@@ -107,14 +107,23 @@
                                     <action selector="showDirectionWithSender:" destination="fwm-Zr-OH2" eventType="touchUpInside" id="NMN-Mv-4SL"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="5j3-HD-wqW">
+                                <rect key="frame" x="257" y="831" width="137" height="32"/>
+                                <segments>
+                                    <segment title="Car"/>
+                                    <segment title="Walking"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="EMN-fG-kWB"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="EMN-fG-kWB" firstAttribute="bottom" secondItem="5j3-HD-wqW" secondAttribute="bottom" id="AxB-Zg-7l4"/>
                             <constraint firstItem="S8w-6q-zTo" firstAttribute="top" secondItem="rdY-Ms-5HH" secondAttribute="top" id="HWE-Jh-yPo"/>
                             <constraint firstItem="fVN-o1-dKT" firstAttribute="trailing" secondItem="rdY-Ms-5HH" secondAttribute="trailingMargin" id="J5K-hX-J3o"/>
                             <constraint firstItem="eZg-mU-20D" firstAttribute="top" secondItem="EMN-fG-kWB" secondAttribute="top" id="Ocb-8g-qt4"/>
                             <constraint firstItem="EMN-fG-kWB" firstAttribute="trailing" secondItem="S8w-6q-zTo" secondAttribute="trailing" id="PWk-yV-1UF"/>
+                            <constraint firstItem="EMN-fG-kWB" firstAttribute="trailing" secondItem="5j3-HD-wqW" secondAttribute="trailing" constant="20" id="QJD-D4-1Np"/>
                             <constraint firstItem="eZg-mU-20D" firstAttribute="trailing" secondItem="rdY-Ms-5HH" secondAttribute="trailingMargin" id="R9z-5x-IAV"/>
                             <constraint firstItem="S8w-6q-zTo" firstAttribute="leading" secondItem="EMN-fG-kWB" secondAttribute="leading" id="SOv-Si-hXg"/>
                             <constraint firstAttribute="bottom" secondItem="S8w-6q-zTo" secondAttribute="bottom" id="f8j-1M-cEl"/>
@@ -123,12 +132,67 @@
                     </view>
                     <connections>
                         <outlet property="mapView" destination="S8w-6q-zTo" id="yKb-Em-TJB"/>
+                        <outlet property="segmentControl" destination="5j3-HD-wqW" id="whJ-gp-lIF"/>
+                        <segue destination="GvT-K4-hs0" kind="presentation" identifier="showSteps" id="mec-hR-OOv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JuQ-90-Y0X" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="U5G-ZQ-kYp" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1517" y="173"/>
+            <point key="canvasLocation" x="1548" y="173"/>
+        </scene>
+        <!--Steps-->
+        <scene sceneID="CeP-8p-wpr">
+            <objects>
+                <tableViewController id="OFk-Dp-U4N" customClass="StepTableViewController" customModule="MKDirectionsAPIDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="I3i-Vq-gDw">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="stepcell" id="FOJ-dF-ws2">
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FOJ-dF-ws2" id="OsX-ae-ldq">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="OFk-Dp-U4N" id="Yz0-Ia-5X2"/>
+                            <outlet property="delegate" destination="OFk-Dp-U4N" id="l8z-ff-grC"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Steps" id="Awg-9i-N2A">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="3hd-Sq-4MA">
+                            <connections>
+                                <action selector="close" destination="OFk-Dp-U4N" id="UwT-Zd-Md2"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oHe-ew-Osy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3094" y="173"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="z6x-15-4gQ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="GvT-K4-hs0" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pXh-RJ-m2V">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="OFk-Dp-U4N" kind="relationship" relationship="rootViewController" id="8YY-is-C7Z"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Znf-RY-OtF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2338" y="173"/>
         </scene>
     </scenes>
     <resources>
